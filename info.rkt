@@ -1,6 +1,9 @@
 #lang setup/infotab
 (define collection "openal")
 (define deps
-  (list))
+  (list "base"
+        "racket-doc"
+        "rackunit-lib"
+       ))
 (define build-deps
   (list))
