@@ -6,4 +6,6 @@
         "rackunit-lib"
        ))
 (define build-deps
-  (list))
+  (list "scribble-lib"
+       ))
+(define scribblings '(("openal.scrbl" ())))

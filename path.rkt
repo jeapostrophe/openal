@@ -24,4 +24,4 @@
                 rate))
 
 (provide/contract
- [alBufferData/path (-> integer? path? void)])
+ [alBufferData/path (-> integer? path-string? void?)])
