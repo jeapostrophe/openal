@@ -8,4 +8,4 @@
 (define build-deps
   (list "scribble-lib"
        ))
-(define scribblings '(("openal.scrbl" ())))
+(define scribblings '(("openal.scrbl" () ("Audio"))))
