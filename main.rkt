@@ -3,22 +3,20 @@
          (for-syntax racket/base)
          (prefix-in c: racket/contract)
          racket/runtime-path
-         ffi/unsafe)
+         ffi/unsafe
+         ffi/unsafe/define)
 
-(define openal 
+(define openal
   (case (system-type 'os)
     [(unix)
-     (ffi-lib "libopenal")]
+     (ffi-lib "libopenal" #:fail (λ () #f))]
     [(macosx)
-     (ffi-lib "OpenAL.framework/OpenAL")]))
+     (ffi-lib "OpenAL.framework/OpenAL" #:fail (λ () #f))]
+    [else
+     #f]))
 
-(define-syntax-rule (define-ffi-definer define-openal define-openal* openal)
-  (begin
-    (define-syntax-rule (define-openal* (id ffi-id) ty)
-      (define id (get-ffi-obj 'ffi-id openal ty)))
-    (define-syntax-rule (define-openal id ty)
-      (define-openal* (id id) ty))))
-(define-ffi-definer define-openal define-openal* openal)
+(define-ffi-definer define-openal openal
+  #:default-make-fail make-not-available)
 
 (define-openal alGetError
   (_fun -> _uint))
@@ -124,12 +122,13 @@
         -> _void
         -> (begin (check-error 'alGetSourcei)
                   value)))
-(define-openal* (alSourceb alSourcei)
+(define-openal alSourceb
   (_fun [source : _ALsource]
         [param : _uint]
         [value : _bool]
         -> _void
-        -> (check-error 'alSourceb)))
+        -> (check-error 'alSourceb))
+  #:c-id alSourcei)
 (define-openal alSourcef
   (_fun [source : _ALsource]
         [param : _uint]
