@@ -12,6 +12,8 @@
      (ffi-lib "libopenal" #:fail (λ () #f))]
     [(macosx)
      (ffi-lib "OpenAL.framework/OpenAL" #:fail (λ () #f))]
+    [(windows)
+     (ffi-lib "OpenAL32" #:fail (λ () #f))]
     [else
      #f]))
 
